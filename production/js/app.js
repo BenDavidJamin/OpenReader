@@ -1,0 +1,1 @@
+define(["jquery","underscore","backbone"],function($,_,Backbone){var app={};return _.extend(app,{},Backbone.Events)});

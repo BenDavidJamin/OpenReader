@@ -1,0 +1,1 @@
+define(["jquery","backbone","views/page","app"],function($,Backbone,Page,App){var Router=Backbone.Router.extend({initialize:function(){Backbone.history.start()},routes:{"":"index"},index:function(){var page=new Page({padding:20}),pageView=page.render().el;$("#main").append(pageView);App.trigger("calculate-pages")}});return Router});

@@ -1,0 +1,120 @@
+{
+    "project": {},
+    "files": {
+        "../app/js/views/app.js": {
+            "name": "../app/js/views/app.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "../app/js/views/page.js": {
+            "name": "../app/js/views/page.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "../app/js/views/thumb.js": {
+            "name": "../app/js/views/thumb.js",
+            "modules": {},
+            "classes": {
+                "App": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "../app/js/main.js": {
+            "name": "../app/js/main.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "../app/js/router.js": {
+            "name": "../app/js/router.js",
+            "modules": {},
+            "classes": {
+                "Router": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "App": {
+            "name": "App",
+            "shortname": "App",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "../app/js/views/thumb.js",
+            "line": 10,
+            "extends": "Backbone.View\nThe first touch down to the application"
+        },
+        "Router": {
+            "name": "Router",
+            "shortname": "Router",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "../app/js/router.js",
+            "line": 9,
+            "extends": "Backbone.Router\n Provides the routes for the app"
+        }
+    },
+    "classitems": [
+        {
+            "file": "../app/js/views/app.js",
+            "line": 13,
+            "itemtype": "method",
+            "name": "initialize\n\nThis is just the boilerplate so we only print something to the\nconsole.log (WARNING: May not work in IE)",
+            "class": "App"
+        },
+        {
+            "file": "../app/js/views/page.js",
+            "line": 34,
+            "itemtype": "method",
+            "name": "initialize\n\nThis is just the boilerplate so we only print something to the\nconsole.log (WARNING: May not work in IE)",
+            "class": "App"
+        },
+        {
+            "file": "../app/js/views/thumb.js",
+            "line": 25,
+            "itemtype": "method",
+            "name": "initialize\n\nThis is just the boilerplate so we only print something to the\nconsole.log (WARNING: May not work in IE)",
+            "class": "App"
+        },
+        {
+            "file": "../app/js/main.js",
+            "line": 30,
+            "description": "Initiates the router for the app.",
+            "class": "Router"
+        },
+        {
+            "file": "../app/js/router.js",
+            "line": 17,
+            "itemtype": "method",
+            "name": "initialize\nStarts up the Backbone history for correct\nsite navigation.",
+            "class": "Router"
+        },
+        {
+            "file": "../app/js/router.js",
+            "line": 31,
+            "itemtype": "method",
+            "name": "index\nThe default view for the application.",
+            "class": "Router"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type\nInitiates the router for the app.",
+            "line": " ../app/js/main.js:30"
+        }
+    ]
+}

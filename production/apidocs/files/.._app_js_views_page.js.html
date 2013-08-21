@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>..&#x2F;app&#x2F;js&#x2F;views&#x2F;page.js</title>
+    <link rel="stylesheet" href="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;3.8.0&#x2F;build&#x2F;cssgrids&#x2F;cssgrids-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="..&#x2F;assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="..&#x2F;assets/favicon.png">
+    <script src="http:&#x2F;&#x2F;yui.yahooapis.com&#x2F;combo?3.8.0&#x2F;build&#x2F;yui&#x2F;yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="..&#x2F;assets/css/logo.png" title=""></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: </em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="..&#x2F;classes/App.html">App</a></li>
+            
+                <li><a href="..&#x2F;classes/Router.html">Router</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: ..&#x2F;app&#x2F;js&#x2F;views&#x2F;page.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+define([
+  &#x27;app&#x27;,
+  &#x27;backbone&#x27;,
+  &#x27;underscore&#x27;,
+  &#x27;jquery&#x27;,
+  &#x27;handlebars&#x27;,
+  &#x27;text!templates&#x2F;page.html&#x27;,
+  &#x27;text-selection&#x27;,
+  &#x27;views&#x2F;thumb&#x27;],
+  function (App, Backbone, _, $, Handlebars, PageTemplate, TextSelection, ThumbView) {
+
+  &#x2F;**
+   * @class App
+   * @extends Backbone.View
+   * The first touch down to the application
+   *&#x2F;
+  var Page = Backbone.View.extend({
+    &#x2F;&#x2F; The tag type of the appview.
+    tagName: &quot;div&quot;,
+
+    template: Handlebars.compile(PageTemplate),
+
+    pages: null,
+
+    currentPage: 0,
+
+    padding: 20,
+
+    press_time: 1000,  &#x2F;&#x2F; Maybe hardcode this value in setTimeout
+
+    thumbs: {right: null, left: null},
+
+
+    &#x2F;**
+     * @method initialize
+     *
+     * This is just the boilerplate so we only print something to the
+     * console.log (WARNING: May not work in IE)
+     *&#x2F;
+    initialize: function() {
+      _.bindAll(this,
+        &quot;calculatePages&quot;, 
+        &quot;touchDown&quot;, 
+        &quot;touchLeave&quot;,
+        &quot;underline&quot;,
+        &quot;highlight&quot;,
+        &quot;endSelection&quot;,
+        &quot;flipPage&quot;);
+
+      App.on(&quot;left-thumb-move&quot;,function(offset){
+        TextSelection.preappendPosition(offset);
+      });
+      
+      App.on(&quot;right-thumb-move&quot;,function(offset){
+        TextSelection.appendPosition(offset);
+      });
+
+      App.on(&quot;underline&quot;,this.underline);
+
+      App.on(&quot;highlight&quot;,this.highlight);
+
+      App.on(&quot;copy-selection&quot;, this.endSelection);
+
+      App.on(&quot;calculate-pages&quot;, this.calculatePages);
+
+    },
+
+
+
+    render: function(){
+
+      var body = &quot;\
+        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using &#x27;Content here, content here&#x27;, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for &#x27;lorem ipsum&#x27; will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\
+        Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of &#x27;de Finibus Bonorum et Malorum&#x27; (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, &#x27;Lorem ipsum dolor sit amet..&#x27;, comes from a line in section 1.10.32.\
+        The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from &#x27;de Finibus Bonorum et Malorum&#x27; by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.\
+        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#x27;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#x27;t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words e&quot;;
+
+      var words = body.split(&quot; &quot;);
+      var bodySpanned = &quot;&quot;;
+      for(var i = 0;i&lt; words.length;i++){
+        bodySpanned += &quot;&lt;span&gt;&quot;+ words[i] +&quot;&lt;&#x2F;span&gt; &quot;;
+      }
+      var width = (window.innerWidth) -100;
+
+      this.$el.html(this.template(
+        {
+          title: &quot;This will be great&quot;, 
+          body:bodySpanned,
+          padding: this.padding, 
+          height: window.innerHeight -80
+        }));
+
+      var page = this.$el.find(&quot;.page-body&quot;)
+      var width = (window.innerWidth) -100;
+
+      page.css(&quot;webkit-column-width&quot;, width) ;
+      page.css(&quot;moz-column-width&quot;, width); &#x2F;* Firefox *&#x2F;
+      page.css(&quot;column-width&quot;, width); &#x2F;* Safari and Chrome *&#x2F;
+
+
+      return this;
+    },
+
+    handleClick: function(event){
+      this.flipPage(event);
+    },
+
+    highlight: function(){
+      TextSelection.highlight();
+    },
+
+    underline: function(){
+      TextSelection.underline();
+    },  
+
+    endSelection: function(){
+      this.thumbs.right.remove();
+      this.thumbs.left.remove();
+      this.thumbs.right = null;
+      this.thumbs.left = null;
+
+      var range = TextSelection.get();
+      &#x2F;&#x2F;want to get a pointer to the first parent that isn&#x27;t a span
+      &#x2F;&#x2F; aka has id. 
+
+      TextSelection.clear();
+      &#x2F;&#x2F; broad casts current selection
+      App.trigger(&quot;copied-selection&quot;, range.startContainer.parentNode.parentNode,range);
+    },
+
+    touchDown: function(event){
+      event.preventDefault();
+      var that = this;
+      var target = $(event.target);
+      if(this.thumbs.right !== null){
+        this.endSelection();
+      }
+      that.$el.data(&quot;checkdown&quot;, setTimeout(function () {
+          &#x2F;&#x2F; Add your code to run
+          TextSelection.selectText(event.target);
+          var target = $(event.target)[0];
+          that.thumbs.right = new ThumbView(
+            {
+              top:target.offsetTop+target.offsetHeight,
+              left:((target.offsetLeft+target.offsetWidth) - (that.el.clientWidth - that.padding)*that.currentPage),
+              position:&quot;right&quot;
+            }
+          );
+          that.thumbs.left = new ThumbView(
+            {
+              top:target.offsetTop+target.offsetHeight,
+              left:target.offsetLeft-(that.el.clientWidth - that.padding)*that.currentPage,
+              position:&quot;left&quot;
+            }
+          );
+          that.$el.append(that.thumbs.right.render().el);
+          that.$el.append(that.thumbs.left.render().el);
+      }, that.press_time));
+    },
+
+    touchLeave: function(event){
+      event.preventDefault();
+      clearTimeout(this.$el.data(&quot;checkdown&quot;));
+    },
+
+    flipPage: function(event){
+      var boundStart = (this.el.clientWidth)*this.currentPage;
+      var boundEnd = boundStart+this.el.clientWidth;
+      var clickSpan = (this.el.clientWidth)*.40;
+      var point = event.clientX + this.currentPage*this.el.clientWidth;
+      var scrollLeft = $(&quot;.page-body&quot;)[0].scrollLeft
+      if(this.currentPage != 0 
+        &amp;&amp; point &gt; boundStart 
+        &amp;&amp; point &lt; (boundStart + clickSpan)){
+        $(&quot;.page-body&quot;).animate({
+            scrollLeft: scrollLeft-(this.el.clientWidth - this.padding)
+        }, 800);
+        console.log(&quot;previous page&quot;);
+        this.currentPage -= 1;
+      }else if( this.currentPage != this.pages -1
+        &amp;&amp; point &lt; boundEnd 
+        &amp;&amp; point &gt; boundEnd - clickSpan){
+        var scroll = (this.el.clientWidth - this.padding) + scrollLeft;
+        $(&quot;.page-body&quot;).animate({
+            scrollLeft: scroll
+        }, 800);
+
+        this.currentPage += 1;
+      }
+      $(&quot;.current-page&quot;).html(this.currentPage+1);
+
+    },
+
+    calculatePages: function(){
+      var width = this.$el.find(&quot;.page-body&quot;)[0].scrollWidth;
+      var pageWidth = this.el.clientWidth + this.padding;
+      this.pages =  Math.ceil(width&#x2F;pageWidth);
+      while(width &gt;= this.$el.find(&quot;.page-body&quot;)[0].scrollWidth){
+        this.$el.find(&quot;.page-body&quot;).append(&quot;&lt;br&gt;&quot;);
+      }
+      $(&quot;.current-page&quot;).html(&quot;1&quot;);
+      $(&quot;.total-page&quot;).html(this.pages);
+    },
+
+    events: {
+      &quot;click .page-body&quot;: &quot;handleClick&quot;,
+      &quot;touch &quot;: &quot;handleClick&quot;,
+      &quot;mousedown&quot;: &quot;touchDown&quot;,
+      &quot;mouseup&quot;: &quot;touchLeave&quot;,
+      &quot;mouseout&quot;: &quot;touchLeave&quot;
+    }
+
+
+
+  });
+
+  return Page;
+});
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="..&#x2F;assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="..&#x2F;assets/js/yui-prettify.js"></script>
+<script src="..&#x2F;assets/../api.js"></script>
+<script src="..&#x2F;assets/js/api-filter.js"></script>
+<script src="..&#x2F;assets/js/api-list.js"></script>
+<script src="..&#x2F;assets/js/api-search.js"></script>
+<script src="..&#x2F;assets/js/apidocs.js"></script>
+</body>
+</html>

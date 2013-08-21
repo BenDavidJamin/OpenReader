@@ -18,7 +18,7 @@
     <div id="main"></div>
       <script data-main="js/main" src="vendor/requirejs/require.js"></script>
       <script>
-        require([{{#serve_files}}"../{{src}}",{{/serve_files}}], function(){
+        require([{{#serve_files}}"../{{src}}"{{/serve_files}}], function(){
           var env = jasmine.getEnv();
           env.addReporter(new jasmine.HtmlReporter);
           env.execute();
