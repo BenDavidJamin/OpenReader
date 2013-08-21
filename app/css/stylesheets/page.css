@@ -1,0 +1,14 @@
+/* line 1, ../sass/page.scss */
+.page-title {
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-size: 150%;
+}
+
+/* line 8, ../sass/page.scss */
+.page-end {
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}

@@ -1,0 +1,20 @@
+/* line 1, ../sass/page-reader.scss */
+.page-title {
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-size: 150%;
+}
+
+/* line 8, ../sass/page-reader.scss */
+.page-body {
+  overflow: hidden;
+  width: auto;
+}
+
+/* line 13, ../sass/page-reader.scss */
+.page-end {
+  text-align: center;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}

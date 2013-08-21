@@ -1,5 +1,10 @@
-define(['backbone', 'underscore', 'jquery'],
-	function (Backbone, _, $) {
+define(['backbone', 
+  'underscore', 
+  'jquery', 
+  'views/page', 
+  'views/library',
+  'text!templates/app.html'],
+	function (Backbone, _, $, PageView, LibraryView, AppTemplate) {
 
   /**
    * @class App
@@ -10,6 +15,11 @@ define(['backbone', 'underscore', 'jquery'],
     // The tag type of the appview.
     tagName: "div",
 
+    
+
+
+    template: Handlebars.compile(AppTemplate),
+
     /**
      * @method initialize
      *
@@ -17,14 +27,17 @@ define(['backbone', 'underscore', 'jquery'],
      * console.log (WARNING: May not work in IE)
      */
     initialize: function() {
-      if(DEBUG){
-        console.log("we're using the debug mode");
-      }
 
-      if(PRODUCTION){
-        console.log("we're using the production mode");
-      }
-      console.log( 'Wahoo!' );
+
+    },
+    /**
+     * [render description]
+     * @return {[type]} [description]
+     */
+    render: function(){
+      this.$el.html(this.template());
+
+      return this;
     }
 
   });
