@@ -1,25 +1,36 @@
-var express = require("express"),
-  path = require('path'),
-  http = require('http'),
-  documentdb = require('./routes/documents');
+var path = require('path');
+var http = require('http');
+var mongoose = require('mongoose');
+var restify = require("restify");
 
-var app = express();
+var env = 'development';
+var config = require('./config/config.js')[env];
 
-app.configure(function (){
-  app.set('port', process.env.PORT || 8000);
+//connect to mongoose. 
+mongoose.connect(config.mongoose.url);
 
-  app.use(express.logger('dev'));
-  app.use(express.bodyParser());
-  app.use(express.static(path.join(__dirname, 'app')));
+var server = restify.createServer();
+
+// restify settings
+server.use(restify.acceptParser(server.acceptable));
+server.use(restify.queryParser());
+server.use(restify.bodyParser());
+
+// Bootstrap routes
+require('./server/routes')(server);
+
+/**
+ * route all get calls to the backbone app
+ */
+server.get(/\//, restify.serveStatic({
+  directory: './app',
+  default: 'index.html',
+  maxAge: config.maxAge
+}));
+
+
+
+server.listen(config.port, function() {
+  console.log('%s listening at %s', config.name, JSON.stringify(config));
 });
 
-app.get('/documents', documentdb.findAll);
-//app.get('/documents/:id', document.findById);
-app.post('/documents', documentdb.addDocument);
-//app.put('/documents/:id', document.updateDocument);
-//app.delete('/documents/:id', document.deleteDocument);
-//
-
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
-});

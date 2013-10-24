@@ -1,14 +1,14 @@
 {
-  "name": "RequireJS-Starter",
-  "version": "1.0.0",
+  "name": "Open-Book",
+  "version": "0.1.0",
   "dependencies": {
-    "grunt": "*",
     "grunt-contrib": "*",
-    "express": "3.1.0",
-    "mongodb": "*"  
+    "restify": "*",
+    "mongoose": "*",
+    "unzip": "~0.1.9"
   },
   "devDependencies": {
-    "grunt": "~0.4.1",
+    "grunt": "*",
     "grunt-contrib-requirejs": "~0.4.0"
   }
 }

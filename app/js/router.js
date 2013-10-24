@@ -5,9 +5,10 @@ define([
   'views/reader',
   'views/page',
   'views/library',
+  'views/new',
   'collections/documents',
   'app'
-], function($, Backbone, Reader, Page, Library, DocumentCollection, App){
+], function($, Backbone, Reader, Page, Library, NewDocument, DocumentCollection, App){
 
   /**
    *
@@ -33,7 +34,8 @@ define([
     routes: {
       // Define some URL routes
       "": "index",
-      "doc/:id": "document"
+      "doc/:id": "document",
+      "upload": "upload"
     },
 
     /**
@@ -54,6 +56,11 @@ define([
       var reader = new Reader();
       $("#main").html(reader.render().el);
       App.trigger("calculate-pages");
+    },
+
+    upload: function(){
+      var newDocument = new NewDocument();
+      $("#main").html(newDocument.render().el);
     }
   });
 

@@ -20,12 +20,9 @@ define(['backbone', 'underscore', 'jquery', 'handlebars', 'text!templates/librar
      */
     initialize: function() {
       console.log( this.model );
-
     },
 
-
     render: function(){
-
       this.$el.html(this.template(
         {title: this.model.get("title"),
          author: this.model.get("author")}));
