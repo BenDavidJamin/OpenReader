@@ -2,13 +2,13 @@
 define([
   'jquery',
   'backbone',
-  'views/reader',
-  'views/page',
-  'views/library',
+  //'views/reader',
+  //'views/page',
+  //'views/library',
   'views/new',
   'collections/documents',
   'app'
-], function($, Backbone, Reader, Page, Library, NewDocument, DocumentCollection, App){
+], function($, Backbone, /*Reader, Page, Library,*/ NewDocument, DocumentCollection, App){
 
   /**
    *
