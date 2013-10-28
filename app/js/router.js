@@ -2,13 +2,14 @@
 define([
   'jquery',
   'backbone',
-  //'views/reader',
-  //'views/page',
-  //'views/library',
+  'views/app',
+  'views/reader',
+  'views/page',
+  'views/library',
   'views/new',
   'collections/documents',
   'app'
-], function($, Backbone, /*Reader, Page, Library,*/ NewDocument, DocumentCollection, App){
+], function($, Backbone, AppView, Reader, Page, Library, NewDocument, DocumentCollection, App){
 
   /**
    *
@@ -43,11 +44,17 @@ define([
      * The default view for the application.
      */
     index: function(){
+      /*
       this.documents.reset();
       var library = new Library({documents: this.documents});
       $("#main").html(library.render().el);
 
       this.documents.fetch();
+      */
+
+      var appView = new AppView();
+
+      $("#main").html(appView.render().el);
 
     },
 

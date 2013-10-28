@@ -6,7 +6,11 @@ var documents = require("./controllers/documents");
 //var transactions = require("./controllers/transactions");
 
 
-module.exports = function (server){
+/**
+ * not sure if I have to pass in gridfs at this point but I'll find out soon 
+ * enough.
+ */
+module.exports = function (server, gridfs){
 
   //documents
   server.get("/documents", documents.show);

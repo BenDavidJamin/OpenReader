@@ -6,9 +6,9 @@ require.config({
     'backbone': '../vendor/backbone/backbone',
     'handlebars': '../vendor/handlebars/handlebars',
     'async': '../vendor/async/lib/async',
-    'text': '../vendor/text/text'
-    //'jquery-ui-draggable': '../vendor/jquery-ui-custom/jquery-ui-1.10.2.custom.min',
-    //'text-selection': '../vendor/text-selection/text-selection'
+    'text': '../vendor/text/text',
+    'jquery-ui-draggable': '../vendor/jquery-ui/ui/minified/jquery-ui.min',
+    'text-selection': '../vendor/text-selection/app/js/textSelect'
   },
    shim: {
 

@@ -5,7 +5,8 @@
     "grunt-contrib": "*",
     "restify": "*",
     "mongoose": "*",
-    "unzip": "~0.1.9"
+    "unzip": "~0.1.9",
+    "gridfs-stream": "*"
   },
   "devDependencies": {
     "grunt": "*",

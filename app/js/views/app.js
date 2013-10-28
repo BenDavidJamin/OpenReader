@@ -3,8 +3,9 @@ define(['backbone',
   'jquery', 
   'views/page', 
   'views/library',
+  'views/app/current',
   'text!templates/app.html'],
-	function (Backbone, _, $, PageView, LibraryView, AppTemplate) {
+	function (Backbone, _, $, PageView, LibraryView, CurrentView, AppTemplate) {
 
   /**
    * @class App
@@ -14,9 +15,6 @@ define(['backbone',
   var App = Backbone.View.extend({
     // The tag type of the appview.
     tagName: "div",
-
-    
-
 
     template: Handlebars.compile(AppTemplate),
 
@@ -28,6 +26,8 @@ define(['backbone',
      */
     initialize: function() {
 
+      this.current = new CurrentView();
+
 
     },
     /**
@@ -35,7 +35,12 @@ define(['backbone',
      * @return {[type]} [description]
      */
     render: function(){
+
+      this.$el.empty();
+
       this.$el.html(this.template());
+
+      this.$el.find(".current-reading").append(this.current.render().el);
 
       return this;
     }
