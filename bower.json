@@ -9,6 +9,7 @@
     "handlebars": null,
     "normalize": "https://github.com/necolas/normalize.css.git",
     "async": "https://github.com/caolan/async.git",
+    "text-selection": "https://github.com/BenDavidJamin/TextSelection.git",
     "jquery-ui": null,
     "jasmine": null,
     "text": null
