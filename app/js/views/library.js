@@ -18,12 +18,11 @@ define(['backbone', 'underscore', 'jquery', 'handlebars', 'views/libraryItem', '
      * This is just the boilerplate so we only print something to the
      * console.log (WARNING: May not work in IE)
      */
-    initialize: function() {
-
-      this.listenTo(this.options.documents, {
+    initialize: function(attributes) {
+      this.documents = attributes.documents;
+      this.listenTo(this.documents, {
         "change reset add remove": this.renderLibrary
       });
-
     },
 
 
@@ -34,10 +33,24 @@ define(['backbone', 'underscore', 'jquery', 'handlebars', 'views/libraryItem', '
     },
 
     renderLibrary: function(){
-      this.options.documents.each(function(doc) {
+      this.$el.find(".library").empty();
+      this.documents.each(function(doc) {
         var item = new LibraryItem({model: doc});
         this.$el.find(".library").append(item.render().el);
       }, this);
+    },
+
+    events: {
+      "click #pagination-next": "nextPagination",
+      "click #pagination-prev": "prevPagination"
+    },
+
+    nextPagination: function(evt){
+
+    },
+
+    prevPagination: function(evt){
+
     }
 
   });

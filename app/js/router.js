@@ -2,13 +2,13 @@
 define([
   'jquery',
   'backbone',
-  //'views/reader',
-  //'views/page',
-  //'views/library',
+  'views/reader',
+  'views/page',
+  'views/library',
   'views/new',
   'collections/documents',
   'app'
-], function($, Backbone, /*Reader, Page, Library,*/ NewDocument, DocumentCollection, App){
+], function($, Backbone, Reader, Page, Library, NewDocument, DocumentCollection, App){
 
   /**
    *
@@ -34,7 +34,7 @@ define([
     routes: {
       // Define some URL routes
       "": "index",
-      "doc/:id": "document",
+      "document/:id": "document",
       "upload": "upload"
     },
 
@@ -53,7 +53,8 @@ define([
 
     document: function(id){
       //This is where we would pass the object id here
-      var reader = new Reader();
+      App.currentDocument = id;
+      var reader = new Reader({id: id});
       $("#main").html(reader.render().el);
       App.trigger("calculate-pages");
     },

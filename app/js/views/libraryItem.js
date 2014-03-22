@@ -1,5 +1,5 @@
-define(['backbone', 'underscore', 'jquery', 'handlebars', 'text!templates/library-item.html'],
-  function (Backbone, _, $, Handlebars, libraryItemTemplate) {
+define(['backbone', 'underscore', 'jquery', 'app', 'handlebars', 'text!templates/library-item.html'],
+  function (Backbone, _, $, App, Handlebars, libraryItemTemplate) {
 
   /**
    * @class App
@@ -22,11 +22,25 @@ define(['backbone', 'underscore', 'jquery', 'handlebars', 'text!templates/librar
       console.log( this.model );
     },
 
+
+    events: {
+      "click .library-item": "itemSelect"
+    },
+
     render: function(){
       this.$el.html(this.template(
-        {title: this.model.get("title"),
-         author: this.model.get("author")}));
+        {title: this.model.getTitle(),
+         author: this.model.getAuthor()}));
+      var that = this;
+      this.model.getCover().done(function(result){
+        that.$(".library-item-image")[0].src = "data:image/jpeg;base64,"+result;
+      });
+
       return this;
+    },
+
+    itemSelect: function(evt){
+      window.location = "#/document/"+this.model.get("_id");
     }
 
   });

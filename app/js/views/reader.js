@@ -2,11 +2,14 @@ define(["app",
   "jquery", 
   "underscore", 
   "backbone", 
+  "handlebars",
+  'models/document',
+  'text!templates/reader.html',
   'views/page',
   'views/androidHeader',
   'views/options/addNote',
   'views/options/copy'],
-   function(App, $, _, Backbone, Page, AndroidHeader, AddNoteOption, CopyOption){
+   function(App, $, _, Backbone, Handlebars, Document, ReaderTemplate, Page, AndroidHeader, AddNoteOption, CopyOption){
   /**
    * This class determins how many pages are rendered on screen and how they are deligated. 
    * Since we have a concept of a reader and note page this will determine from 
@@ -15,6 +18,7 @@ define(["app",
    */
   var ReaderView = Backbone.View.extend({
 
+    template: Handlebars.compile(ReaderTemplate),
 
     /**
      * In charge of setting up all of the header buttons for actions on the application
@@ -22,7 +26,7 @@ define(["app",
      * initialized in this view for the application. 
      * @return {[type]} [description]
      */
-    initialize: function(){
+    initialize: function(attributes){
 
       //In the reader view we take in the 
       _.bindAll(this, "addSelectionOptions", "removeSelectionOptions");
@@ -31,14 +35,32 @@ define(["app",
 
       //remove options from the top navigation 
       App.on("text-deselection", this.removeSelectionOptions);
+      this.document = new Document();
+      this.document.set("id", attributes.id);
+      this.document.fetch();
+
+      this.listenTo(this.document, "sync", this.docRender);
+
     },
 
     render: function(){      
-      var page = new Page({padding: 20});
-      var header = new AndroidHeader();
-      this.$el.append(header.render().el);
-      this.$el.append(page.render().el);
+      this.$el.empty();
+      this.$el.html(this.template());
       return this;
+    },
+
+    docRender: function(){
+      this.page = new Page({padding: 20, body: "", title: this.document.getTitle() });
+      var page = this.page;      
+      
+      this.document.getStyle().done(function(result){
+        page.setStyle(result);
+      }); 
+      this.document.getDocumentFragement().done(function(result){
+        page.appendDocumentFragement(result);
+      });
+      //this.$el.append(this.page.render().el);
+      this.$("#content").html(this.page.render().el);
     },
 
     addSelectionOptions: function(){
@@ -49,7 +71,8 @@ define(["app",
     removeSelectionOptions: function(){
       App.trigger("remove-option", "copy");
       App.trigger("remove-option", "addnote");
-    }
+    },
+
 
   });
 

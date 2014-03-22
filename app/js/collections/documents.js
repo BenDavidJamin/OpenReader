@@ -4,9 +4,16 @@ define([
   'backbone',
   'models/document'
 ], function($, _, Backbone, DocumentModel){
+
   var Documents = Backbone.Collection.extend({
     model: DocumentModel, // Generally best practise to bring down a Model/Schema for your collection
-    url: 'http://localhost:8000/documents'
+    currentPage: 0,
+    genre: "",
+    search: "",
+    url: function(){
+      return 'http://localhost:8001/documents?page='+this.currentPage;
+    }
+    
   });
 
   return Documents;
