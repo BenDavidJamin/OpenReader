@@ -1,5 +1,7 @@
 var path = require('path');
 var http = require('http');
+var https = require('https');
+var fs = require('fs');
 var mongoose = require('mongoose');
 var restify = require("restify");
 
@@ -15,6 +17,7 @@ var server = restify.createServer();
 server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
+server.use(restify.gzipResponse());
 
 // Bootstrap routes
 require('./server/routes')(server);
@@ -25,12 +28,13 @@ require('./server/routes')(server);
 server.get(/\//, restify.serveStatic({
   directory: './app',
   default: 'index.html',
-  maxAge: config.maxAge
+  maxAge: 1 
 }));
 
 
 
 server.listen(config.port, function() {
-  console.log('%s listening at %s', config.name, JSON.stringify(config));
+  console.log(" started on port " + config.port + "! " + 
+    "config: " + JSON.stringify(config, null, '\t'));
 });
 

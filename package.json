@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "dependencies": {
     "grunt-contrib": "*",
-    "restify": "*",
-    "mongoose": "*",
-    "unzip": "~0.1.9"
+    "restify": "2.5.0",
+    "mongoose": "~3.8.4",
+    "unzip": "~0.1.9",
+    "zipfile": "~0.4.3",
+    "cheerio": "~0.13.1",
+    "clean-css": "~2.0.7"
   },
   "devDependencies": {
     "grunt": "*",
