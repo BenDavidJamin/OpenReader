@@ -1,0 +1,24 @@
+/**
+ * controllers
+ */
+
+var documents = require("./controllers/documents");
+//var transactions = require("./controllers/transactions");
+
+
+module.exports = function (server){
+
+  //documents
+  server.get("/documents/:id", documents.show);
+  server.post("/documents", documents.create);
+  server.put("/documents", documents.create);
+  server.del("/documents/:id", documents.destroy);
+  server.get("/documents", documents.index);
+  server.get("/clear", documents.clear);
+
+  server.get("/documents/:id/files", documents.files);
+
+}
+
+
+

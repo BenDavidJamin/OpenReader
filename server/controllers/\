@@ -7,7 +7,6 @@ var cleanCSS = require('clean-css');
 
 var Document = mongoose.model('Document', require('../models/document')); 
 var Files = mongoose.model('Files', require('../models/files'));
-var Clip = mongoose.model('Selection', require('../models/selection'));
 
 exports.show = function(req, res, next){
   Document.findOne({_id: req.params.id},function(err, result){
@@ -15,14 +14,6 @@ exports.show = function(req, res, next){
       console.error(err);
     }
 //    results.files = [];
-    return res.send(result);
-  });
-}
-
-exports.clips = function(req, res, next){
-  Clip.find({documentId: req.params.id}, function(err, result){
-    if(err)
-      throw err;
     return res.send(result);
   });
 }
@@ -51,15 +42,7 @@ exports.getStyle = function(req, res, next){
       console.log(err);
     return res.send(result === null?"":result.style.data);
   });
-};
 
-exports.getImage = function(req, res, next){
-//  res.setHeader('content-type', 'application/binary');
-  Files.findOne({docId: req.params.id}, function(err, result){
-    if(err)
-      console.log(err);
-    return res.send(result === null?"":result.images[req.params.imageId].data);
-  });
 };
 
 exports.file = function(req, res, next){
@@ -79,14 +62,7 @@ exports.file = function(req, res, next){
 }
 
 exports.index = function(req, res){
-
-  var perPage = 10;
-  var page = req.params.page > 0 ? req.params.page : 0;
-
-  Document.find()
-    .limit(perPage)
-    .skip(perPage * page)
-    .exec(function(err, results){
+  Document.find(function(err, results){
     if(err){
 
     }
@@ -124,6 +100,7 @@ exports.create = function(req, res, next){
   var zf = new zipfile.ZipFile(path);
   var doc;
   var navMap;
+
   for(var i = 0;i<zf.count;i++){
     var buffer = zf.readFileSync(zf.names[i]);
     //create all of the spine metadata etc.
@@ -137,53 +114,33 @@ exports.create = function(req, res, next){
       var file = {};
       filename = filename[filename.length-1];
       file.name = filename;
-      if(file.name.indexOf('.htm') != -1)
-        file.data = buffer.toString();
-      else if(file.name.indexOf('.jpeg') != -1)
-        file.data = buffer.toString('base64');
-      else 
-        file.data = buffer;
-
+      file.data = buffer.toString();
       files.push(file);
     }
   }
   doc.navMap = navMap;
-  console.log("Number of files ", files.length);
 
 
   //if document actually exists assign the files binary to it
   var tmp = {};
-  var firstNavMap = doc.navMap[0].link.split("#");
-  var navMapHref = firstNavMap[0];
-  var firstId = firstNavMap[1];
   for(var i = 0;i<doc.manifest.length;i++){
     var href = doc.manifest[i].href;
     var id = doc.manifest[i].id;
-    var index = 0;
     for(var j = 0;j<files.length;j++){
-      console.log(href, files[j].name);
       if(href === files[j].name){
-        console.log(files[j].name);
         if(href.indexOf("htm") != -1){
           var $ = cheerio.load(files[j].data);
           tmp[id] = {};
-
-          var children = [];
-          if($("#"+firstId).text().length != 0){
-            children = $("#"+firstId).prev().nextAll();
-          }else{
-            children = $("body").children();
-          }
-
-          for(var k = 0;k<children.length;k++){
-            $(children[k]).attr("data-index",index++);
-          }
+          $("p").each(function(i, elem){
+            $(this).data("paragraph-index",i);
+          });
+          $("div").first().addClass("welcome");
+          console.log($.html());
           tmp[id].data = $("body").html();
           tmp[id].name = files[j].name;
         }else{
           tmp[id] = files[j];
         }
-        break;
       }
     }
   }
@@ -242,11 +199,7 @@ function concatDocumentCSS(files, doc){
     }
   }
   //switch to newly created manifest.
-  var minCss = new cleanCSS().minify(styles);
-  minCss = minCss.replace(/width\:\d+[a-z]+;?/gi,"");
-  minCss = minCss.replace(/margin-left:\d%;?/gi,"");
-  minCss = minCss.replace(/margin-right:\d%;?/gi,"");
-
+  var minCss = new cleanCSS({realtiveTo: "page-body"}).minify(styles);
   files["style"] = {};
 
   // set and match
