@@ -1,8 +1,15 @@
 .library-item-image {
+  width:inherit;
+  height:inherit;
   
 }
 
 .library-item {
+  margin-left: 20px;
+  margin-top: 20px;
+  width:100px;
+  height:150px;
+  background-color: green;
   p {
     text-align:center;
   }
