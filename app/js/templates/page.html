@@ -1,7 +1,9 @@
 <h3 class="page-title">{{title}}</h3>
-<div class="page-body" style="height:{{height}}px;padding-left:{{padding}}px;padding-right:{{padding}}px;-moz-column-gap:{{padding}}px;-webkit-column-gap:{{padding}}px;column-gap:{{padding}}px;">
-  {{{body}}}
+<div id="page-prev" style="width:5%;float:left;height:{{height}}px;width:40px;background-color:green"></div>
+<div id="page-body" class="page-body" style="width:90%;float:left;height:{{height}}px;padding-left:{{padding}}px;padding-right:{{padding}}px;-moz-column-gap:{{padding}}px;-webkit-column-gap:{{padding}}px;column-gap:{{padding}}px;">
 </div>
-<div class="page-end">
+<div id="page-next" style="width:5%;float:left;height:{{height}}px;width:40px;background-color:red"></div>
+
+<div  class="page-end" style="clear:both">
   <span class="current-page"></span> of <span class="total-page"></span>
 </div>
