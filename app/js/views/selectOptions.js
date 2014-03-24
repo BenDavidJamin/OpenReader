@@ -32,7 +32,9 @@ define(['backbone', 'underscore', 'jquery', 'handlebars', 'app', 'models/selecti
 
     setRange: function(range){
       this.range = range;
+      this.$el.show();
       TextSelection.setRange(range);
+      console.log("set Range: ",range);
     },
 
     render: function(){
@@ -47,27 +49,27 @@ define(['backbone', 'underscore', 'jquery', 'handlebars', 'app', 'models/selecti
       var selection = new Selection(TextSelection.get());
       /* TODO add note dialoge to add a note about text */
       selection = _setSelectionDefaults(selection);
-      this.remove();
+      this.$el.hide();
     },
 
     underline: function(evt){
       var selection = new Selection(TextSelection.underline());
       selection.set("style", "underline");
       selection = _setSelectionDefaults(selection);
-      this.remove();
+      this.$el.hide();
     },
 
     copy: function(evt){
       var selection = new Selection(TextSelection.get());
       selection = _setSelectionDefaults(selection);
-      this.remove();
+      this.$el.hide();
     },
 
     highlight: function(event){
       var selection = new Selection(TextSelection.highlight());
       selection.set("style", "highlight");
       selection = _setSelectionDefaults(selection);
-      this.remove();
+      this.$el.hide();
     }
 
   });

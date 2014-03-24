@@ -243,9 +243,10 @@ function concatDocumentCSS(files, doc){
   }
   //switch to newly created manifest.
   var minCss = new cleanCSS().minify(styles);
-  minCss = minCss.replace(/width\:\d+[a-z]+;?/gi,"");
-  minCss = minCss.replace(/margin-left:\d%;?/gi,"");
-  minCss = minCss.replace(/margin-right:\d%;?/gi,"");
+  minCss = minCss.replace(/width\:\d+[a-z]+;?/gi,"")
+     .replace(/margin-left:\d%;?/gi,"")
+     .replace(/margin-right:\d%;?/gi,"")
+     .replace(/text-indent:-.+;?/gi,"");
 
   files["style"] = {};
 

@@ -62,8 +62,6 @@ define([
 
     appendDocumentFragement: function(docFrag){
       this.$('#page-body').append(docFrag);
-      this.setSingleNote();
-      this.calculatePages();
     },
 
     setStyle: function(style){
@@ -76,12 +74,14 @@ define([
       if(!$("#page-body")[0]||$("#page-body")[0].scrollWidth === 0){
         return ;
       }
-      var width = this.$("#page-body")[0].scrollWidth;
+      var width = this.$(".page-body")[0].scrollWidth;
+      console.log(width);
       var pageWidth = this.el.clientWidth + this.padding;
       this.pages =  Math.ceil(width/pageWidth);
-      while(width >= this.$("#page-body")[0].scrollWidth){
-        $("#page-body").append("<br>");
-      }
+      console.log(this.pages);
+//      while(width >= this.$("#page-body")[0].scrollWidth){
+//        $("#page-body").append("<br>");
+//      }
       $(".current-page").html("1");
       $(".total-page").html(this.pages);
     },
@@ -100,18 +100,23 @@ define([
       var element = document.getElementById(tag);
       var left = element.offsetLeft;
       var scrollLeft = this.$(".page-body")[0].scrollLeft;
-      var pageWidth = this.$(".page-body")[0].clientWidth - this.padding;
+      
+      var pageWidth = this.$(".page-body")[0].clientWidth - (this.padding + 0.112);
+      console.log(pageWidth, this.$(".page-body")[0].clientWidth, this.padding, this.$(".page-body")[0]);
 
       if( left > scrollLeft){
         while(left > scrollLeft + pageWidth){
           scrollLeft += pageWidth;
+          this.currentPage++;
         }
       } else if(left < scrollLeft) {
         while(left > scrollLeft - pageWidth){
           scrollLeft -= pageWidth;
+          this.currentPage--;
         }
       }
       this.$(".page-body")[0].scrollLeft = scrollLeft;
+      this.$(".current-page").html(this.currentPage+1);
     },
 
     setSinglePage: function(){
@@ -123,6 +128,7 @@ define([
     setDoublePage: function(){
       var page = this.$("#page-body");
       var width = Math.ceil(((page.innerWidth()) -100)/2);
+      console.log(width); 
       setColumnWidth(page,width);
     },
 

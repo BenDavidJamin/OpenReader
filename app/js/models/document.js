@@ -9,13 +9,22 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone){
     },
 
 
-    getDocumentFragement: function(){
-      var fragId = this.get('manifest')[this.currentDocumentFragement].id;
-      return $.ajax({
-        url: 'http://localhost:8001/documents/'+this.get('id')+"/files/content",
-        data: { documentFragement: fragId } 
-      });
-
+    /**
+     * This method calls document fragements asyncly trigger events with 
+     * the promise that is returned. 
+     * On completion a 'loadFragementsComplete' event is fired. 
+     */
+    getDocumentFragements: function(){
+      for(var i = 0;i<this.get('manifest').length; i++){
+        var obj = this.get('manifest')[i];
+        if(obj.mediaType == "application/xhtml+xml"){
+          this.trigger("loadFragement", $.ajax({
+              url: 'http://localhost:8001/documents/'+this.get('id')+"/files/content",
+              data: { documentFragement: obj.id} 
+            }));
+        }
+      }
+      this.trigger("loadFragementsComplete");
     },
 
     getTitle: function(){

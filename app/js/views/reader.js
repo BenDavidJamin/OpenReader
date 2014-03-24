@@ -29,7 +29,7 @@ define(["app",
     initialize: function(attributes){
 
       //In the reader view we take in the 
-      _.bindAll(this, "addSelectionOptions", "removeSelectionOptions");
+      _.bindAll(this, "addSelectionOptions", "removeSelectionOptions", "loadFragement", "loadFragementsComplete");
       //add options to the top navigation bar.
       App.on("text-selection", this.addSelectionOptions);
 
@@ -40,6 +40,8 @@ define(["app",
       this.document.fetch();
 
       this.listenTo(this.document, "sync", this.docRender);
+      this.listenTo(this.document, "loadFragement", this.loadFragement);
+      this.listenTo(this.document, "loadFragementsComplete", this.loadFragementsComplete);
 
     },
 
@@ -56,11 +58,23 @@ define(["app",
       this.document.getStyle().done(function(result){
         page.setStyle(result);
       }); 
-      this.document.getDocumentFragement().done(function(result){
-        page.appendDocumentFragement(result);
-      });
+      this.document.getDocumentFragements();
       //this.$el.append(this.page.render().el);
+    },
+
+    loadFragement: function(result){
+      console.log("loading fragement");
+      var page = this.page;
+      result.done(function(fragement){
+        page.appendDocumentFragement(fragement);
+        page.setDoublePage();
+      });
+    },
+
+    loadFragementsComplete: function(result){
       this.$("#content").html(this.page.render().el);
+//      this.page.setSinglePage();
+      this.page.calculatePages();
     },
 
     addSelectionOptions: function(){
