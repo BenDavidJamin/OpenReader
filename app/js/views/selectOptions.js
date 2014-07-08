@@ -46,29 +46,25 @@ define(['backbone', 'underscore', 'jquery', 'handlebars', 'app', 'models/selecti
     },
 
     note: function(evt){
+      console.log(TextSelection.get());
       var selection = new Selection(TextSelection.get());
       /* TODO add note dialoge to add a note about text */
-      selection = _setSelectionDefaults(selection);
-      this.$el.hide();
-    },
-
-    underline: function(evt){
-      var selection = new Selection(TextSelection.underline());
-      selection.set("style", "underline");
-      selection = _setSelectionDefaults(selection);
+      _setSelectionDefaults(selection);
       this.$el.hide();
     },
 
     copy: function(evt){
+      console.log(TextSelection.get());
       var selection = new Selection(TextSelection.get());
-      selection = _setSelectionDefaults(selection);
+      _setSelectionDefaults(selection);
       this.$el.hide();
     },
 
-    highlight: function(event){
-      var selection = new Selection(TextSelection.highlight());
+    highlight: function(evt){
+      var selection = new Selection(TextSelection.get());
       selection.set("style", "highlight");
-      selection = _setSelectionDefaults(selection);
+      _setSelectionDefaults(selection);
+      App.trigger("highlight-selection",TextSelection.get());
       this.$el.hide();
     }
 
@@ -76,7 +72,8 @@ define(['backbone', 'underscore', 'jquery', 'handlebars', 'app', 'models/selecti
 
   _setSelectionDefaults = function(selection){
     selection.set("dataIndex",_getDataIndex(selection.get("startXPath")));
-    selection.set("documentId",App.currentDocument);
+    selection.set("documentId",App.currentDocument.get('_id'));
+    selection.set("author",App.currentDocument.getAuthor());
     selection.set("userId", App.currentUser);
     selection.save();
   }

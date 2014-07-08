@@ -53,7 +53,6 @@ define([
 
     document: function(id){
       //This is where we would pass the object id here
-      App.currentDocument = id;
       var reader = new Reader({id: id});
       $("#main").html(reader.render().el);
       App.trigger("calculate-pages");

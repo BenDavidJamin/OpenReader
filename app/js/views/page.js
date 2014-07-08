@@ -5,9 +5,8 @@ define([
   'jquery',
   'handlebars',
   'text!templates/page.html',
-  'text-selection',
-  'views/selectOptions'],
-  function (App, Backbone, _, $, Handlebars, PageTemplate, TextSelection, SelectOptionsView) {
+  'text-selection'],
+  function (App, Backbone, _, $, Handlebars, PageTemplate, TextSelection) {
 
   /**
    * @class App
@@ -24,6 +23,8 @@ define([
     template: Handlebars.compile(PageTemplate),
 
     pages: null,
+
+    className: "page",
 
     currentPage: 0,
 
@@ -43,7 +44,6 @@ define([
       App.on("calculate-pages", this.calculatePages);
 
       this.title = attributes.title;
-      this.selectOptions = new SelectOptionsView();
 
     },
 
@@ -60,14 +60,6 @@ define([
       return this;
     },
 
-    appendDocumentFragement: function(docFrag){
-      this.$('#page-body').append(docFrag);
-    },
-
-    setStyle: function(style){
-      $("<style>"+style+"</style>").appendTo("head");  
-    },
-
     calculatePages: function(){
       console.log("calculate pages");
 
@@ -82,8 +74,8 @@ define([
 //      while(width >= this.$("#page-body")[0].scrollWidth){
 //        $("#page-body").append("<br>");
 //      }
-      $(".current-page").html("1");
-      $(".total-page").html(this.pages);
+      this.$(".current-page").html("1");
+      this.$(".total-page").html(this.pages);
     },
 
     events: {
@@ -92,31 +84,6 @@ define([
       "mouseup #page-body": "mouseUp",
       "mousedown #page-body": "mouseDown",
       "click a": "routeLink"
-    },
-
-    routeLink: function(evt){
-      evt.preventDefault();
-      var tag = evt.target.href.split("#")[1];
-      var element = document.getElementById(tag);
-      var left = element.offsetLeft;
-      var scrollLeft = this.$(".page-body")[0].scrollLeft;
-      
-      var pageWidth = this.$(".page-body")[0].clientWidth - (this.padding + 0.112);
-      console.log(pageWidth, this.$(".page-body")[0].clientWidth, this.padding, this.$(".page-body")[0]);
-
-      if( left > scrollLeft){
-        while(left > scrollLeft + pageWidth){
-          scrollLeft += pageWidth;
-          this.currentPage++;
-        }
-      } else if(left < scrollLeft) {
-        while(left > scrollLeft - pageWidth){
-          scrollLeft -= pageWidth;
-          this.currentPage--;
-        }
-      }
-      this.$(".page-body")[0].scrollLeft = scrollLeft;
-      this.$(".current-page").html(this.currentPage+1);
     },
 
     setSinglePage: function(){
@@ -134,8 +101,10 @@ define([
 
     setSingleNote: function(){
       var page = this.$("#page-body");
-      var width = Math.ceil(((page.innerWidth()) -100)/2);
-      page.width(width);
+      this.$el.width("50%");
+      console.log(page.width());
+      var width = Math.ceil(((page.width()) -100));
+      //page.width(width);
       setColumnWidth(page,width);
     },
 
@@ -143,35 +112,20 @@ define([
       var scrollLeft = this.$(".page-body")[0].scrollLeft;
       this.$(".page-body")[0].scrollLeft += this.$(".page-body")[0].clientWidth - this.padding;
       this.currentPage += 1;
-      $(".current-page").html(this.currentPage+1);
+      this.$(".current-page").html(this.currentPage+1);
     },
 
     prevPage: function(){
       var scrollLeft = $(".page-body")[0].scrollLeft;
       this.$(".page-body")[0].scrollLeft -= this.$(".page-body")[0].clientWidth - this.padding;
       this.currentPage -= 1;
-      $(".current-page").html(this.currentPage+1);
+      this.$(".current-page").html(this.currentPage+1);
     },
 
     mouseDown: function(evt){
     },
 
     mouseUp: function(evt){
-      var selObj = window.getSelection();
-      var selRange = selObj.getRangeAt(0);
-      
-      if(selRange.toString().length != 0){
-        var newNode = document.createElement("span");
-        newNode.setAttribute("id", "finder");
-        selRange.insertNode(newNode);
-        var position = $("#finder").position();
-
-
-        this.selectOptions.setLocation(position);
-        this.selectOptions.setRange(selRange.cloneRange());
-        $("body").append(this.selectOptions.render().el);
-        $("#finder").remove();
-      }
     }
 
   });

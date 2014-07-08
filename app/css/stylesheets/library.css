@@ -1,4 +1,18 @@
-/* line 6, ../sass/library.scss */
+/* line 1, ../sass/library.scss */
+.library-item-image {
+  width: inherit;
+  height: inherit;
+}
+
+/* line 7, ../sass/library.scss */
+.library-item {
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 100px;
+  height: 150px;
+  background-color: green;
+}
+/* line 13, ../sass/library.scss */
 .library-item p {
   text-align: center;
 }

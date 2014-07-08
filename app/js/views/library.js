@@ -1,5 +1,5 @@
-define(['backbone', 'underscore', 'jquery', 'handlebars', 'views/libraryItem', 'text!templates/library.html'],
-  function (Backbone, _, $, Handlebars, LibraryItem, LibraryTemplate) {
+define(['app','backbone', 'underscore', 'jquery', 'handlebars', 'views/libraryItem', 'text!templates/library.html'],
+  function (App, Backbone, _, $, Handlebars, LibraryItem, LibraryTemplate) {
 
   /**
    * @class App

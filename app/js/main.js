@@ -8,7 +8,8 @@ require.config({
     'async': '../vendor/async/lib/async',
     'text': '../vendor/text/text',
     'jquery-ui-draggable': '../vendor/jquery-ui/ui/minified/jquery-ui.min',
-    'text-selection': '../vendor/text-selection/app/js/TextSelection'
+    'text-selection': '../vendor/text-selection/app/js/TextSelection',
+    'paperjs': '../vendor/paper/dist/paper'
   },
    shim: {
 

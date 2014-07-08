@@ -6,9 +6,39 @@
   font-size: 150%;
 }
 
-/* line 8, ../sass/page.scss */
+/* line 7, ../sass/page.scss */
+.page {
+  float: left;
+}
+
+/* line 10, ../sass/page.scss */
+.page-prev {
+  width: 3%;
+}
+
+/* line 13, ../sass/page.scss */
+.page-next {
+  width: 3%;
+}
+
+/* line 16, ../sass/page.scss */
+.page-body {
+  width: 80%;
+}
+
+/* line 20, ../sass/page.scss */
 .page-end {
   text-align: center;
   padding-bottom: 10px;
   padding-top: 10px;
+}
+
+/* line 26, ../sass/page.scss */
+#page-prev:hover {
+  background-color: #ACCEF7;
+}
+
+/* line 30, ../sass/page.scss */
+#page-next:hover {
+  background-color: #ACCEF7;
 }

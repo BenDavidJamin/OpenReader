@@ -40,6 +40,8 @@ define(['backbone', 'underscore', 'jquery', 'app', 'handlebars', 'text!templates
     },
 
     itemSelect: function(evt){
+      App.currentDocument = this.model;
+
       window.location = "#/document/"+this.model.get("_id");
     }
 

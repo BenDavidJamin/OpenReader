@@ -5,11 +5,13 @@ define(["app",
   "handlebars",
   'models/document',
   'text!templates/reader.html',
-  'views/page',
-  'views/androidHeader',
+  'views/docPage',
+  'views/notePage',
   'views/options/addNote',
-  'views/options/copy'],
-   function(App, $, _, Backbone, Handlebars, Document, ReaderTemplate, Page, AndroidHeader, AddNoteOption, CopyOption){
+  'views/options/copy',
+  'views/clips',
+  'paperjs'],
+   function(App, $, _, Backbone, Handlebars, Document, ReaderTemplate, DocumentPage, NotePage, AddNoteOption, CopyOption, Clips){
   /**
    * This class determins how many pages are rendered on screen and how they are deligated. 
    * Since we have a concept of a reader and note page this will determine from 
@@ -35,13 +37,15 @@ define(["app",
 
       //remove options from the top navigation 
       App.on("text-deselection", this.removeSelectionOptions);
-      this.document = new Document();
-      this.document.set("id", attributes.id);
+      this.document = new Document({id: attributes.id});
       this.document.fetch();
+      this.clips = new Clips({id: attributes.id});
 
       this.listenTo(this.document, "sync", this.docRender);
       this.listenTo(this.document, "loadFragement", this.loadFragement);
       this.listenTo(this.document, "loadFragementsComplete", this.loadFragementsComplete);
+
+      this.listenTo(App, "highlight-selection", this.highlightSelection);
 
     },
 
@@ -52,14 +56,82 @@ define(["app",
     },
 
     docRender: function(){
-      this.page = new Page({padding: 20, body: "", title: this.document.getTitle() });
+      this.page = new DocumentPage({padding: 20, body: "", title: this.document.getTitle() });
       var page = this.page;      
+      this.$("#openreader-title").text(this.document.getTitle());
       
-      this.document.getStyle().done(function(result){
-        page.setStyle(result);
-      }); 
+      //this.document.getStyle().done(function(result){
+      //  page.setStyle(result);
+      //}); 
       this.document.getDocumentFragements();
       //this.$el.append(this.page.render().el);
+    },
+
+    renderNotes: function(){
+      if(typeof this.notePage == "undefined"){
+        this.notePage = new NotePage({padding: 20, body: "", width: "50%"});
+        this.$("#content").append(this.notePage.render().el);
+        this.notePage.appendView(this.clips);
+      }
+    },
+
+    highlightSelection: function(selection){
+      var selObj = window.getSelection();
+      var range = selObj.getRangeAt(0);
+      var startIndex = _createInserter(true,range.cloneRange());
+      var endIndex = _createInserter(false,range.cloneRange());
+      var start = $("#start");
+      var end = $("#end");
+      var segments = [];
+      var topOffset = 32;
+      if(end.position().top == start.position().top){
+        segments = [
+          [start.position().left,start.position().top-32],
+          [start.position().left,start.position().top-start.height()-32],
+          [end.position().left,end.position().top-end.height()-32],
+          [end.position().left,end.position().top-32]
+        ];
+
+      // in this case two paths need to be created since there is no intersecting
+      //  highlight
+      }else if(end.position().top >= start.position.top-start.height() &&
+        end.position().left < start.position().left){
+        segments = [
+          [start.position().left,start.position().top-32],
+          [start.position().left,start.position().top-start.height()-32],
+          [this.$("#page-body").width(),start.position().top-start.height()-32],
+          [this.$("#page-body").width(),start.position().top-32]
+        ];
+
+       new paper.Path({
+        segments: [
+          [this.$("#page-body").position().left,end.position().top-end.height()-32],
+          [this.$("#page-body").position().left,end.position().top-32],
+          [end.position().left,end.position().top-end.height()-32],
+          [end.position().left,end.position().top-32]
+        ],
+        fillColor: 'yellow',
+        closed: true
+       });
+
+      }else{
+        segments = [
+          [start.position().left,start.position().top-32],
+          [start.position().left,start.position().top-start.height()-32],
+          [end.position().left,end.position().top-end.height()-32],
+          [end.position().left,end.position().top-32]
+        ];
+      }
+
+      new paper.Path({
+        segments: segments,
+        fillColor: 'yellow',
+        closed: true
+      });
+      
+      start.remove();
+      end.remove();
+      
     },
 
     loadFragement: function(result){
@@ -67,15 +139,21 @@ define(["app",
       var page = this.page;
       result.done(function(fragement){
         page.appendDocumentFragement(fragement);
-        page.setDoublePage();
       });
     },
 
     loadFragementsComplete: function(result){
-      this.$("#content").html(this.page.render().el);
-//      this.page.setSinglePage();
+      this.$("#content").append(this.page.render().el);
+      this.page.setSingleNote();
       this.page.calculatePages();
+      var canvas = this.$("#page-overlay")[0];
+      paper.setup(canvas);
     },
+
+    events: {
+      "click #notes a": "renderNotes"
+    },
+
 
     addSelectionOptions: function(){
       App.trigger("add-option", new AddNoteOption().render().el);
@@ -89,6 +167,24 @@ define(["app",
 
 
   });
+
+  function _createInserter(isBefore, range) {
+    var node;
+    range.collapse(isBefore);
+                                                                                                        
+    // Range.createContextualFragment() would be useful here but is
+    // non-standard and not supported in all browsers (IE9, for one)
+    var el = document.createElement("div");
+    var id = isBefore == true?"start":"end";
+    el.innerHTML = "<span id='"+id+"'>|</span>";
+    el.setAttribute("id",id);
+    var frag = document.createDocumentFragment(), node, lastNode;
+    while ( (node = el.firstChild) ) {
+      lastNode = frag.appendChild(node);
+    }
+    range.insertNode(frag);
+    return el;
+  }
 
   return ReaderView
 
