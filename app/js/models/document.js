@@ -5,7 +5,7 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone){
     documentFragementCount: 0,
     
     url: function(){
-      return 'http://localhost:8001/documents/'+this.get("id");
+      return '/documents/'+this.get("id");
     },
 
 
@@ -19,7 +19,7 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone){
         var obj = this.get('manifest')[i];
         if(obj.mediaType == "application/xhtml+xml"){
           this.trigger("loadFragement", $.ajax({
-              url: 'http://localhost:8001/documents/'+this.get('id')+"/files/content",
+              url: '/documents/'+this.get('id')+"/files/content",
               data: { documentFragement: obj.id} 
             }));
         }
@@ -59,14 +59,14 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone){
       
       console.log(href,id, this.get('id'), this.attributes);
       return $.ajax({
-        url: 'http://localhost:8001/documents/'+this.get('_id')+"/files/images/"+id
+        url: 'documents/'+this.get('_id')+"/files/images/"+id
       });
 
     },
 
     getStyle: function(){
      return $.ajax({
-       url: 'http://localhost:8001/documents/'+this.get('id')+"/files/style"
+       url: '/documents/'+this.get('id')+"/files/style"
      });
     }
 
