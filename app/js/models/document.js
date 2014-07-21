@@ -46,14 +46,14 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone){
         return "";
       var href;
       var id;
-      var guide = this.get("guide");
+      //var guide = this.get("guide");
       var manifest = this.get("manifest");
-      for(var i = 0;i<guide.length;i++){
-        if(guide[i].type == "cover")
-          href = guide[i].href;
-      }
+      //for(var i = 0;i<guide.length;i++){
+      //  if(guide[i].type == "cover")
+      //    href = guide[i].href;
+      //}
       for(var i = 0;i<manifest.length;i++){
-        if(manifest[i].href == href)
+        if(manifest[i].id == "coverpage")
           id = manifest[i].id;
       }
       

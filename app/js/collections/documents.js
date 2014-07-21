@@ -11,7 +11,7 @@ define([
     genre: "",
     search: "",
     url: function(){
-      return 'http://localhost:8001/documents?page='+this.currentPage;
+      return '/documents?page='+this.currentPage;
     }
     
   });

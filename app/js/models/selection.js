@@ -3,7 +3,7 @@ define(["jquery", "underscore", "backbone"], function($, _, Backbone){
   var Clip = Backbone.Model.extend({
 
     url: function(){
-      return 'http://localhost:8001/clips';
+      return '/clips';
     },
 
     defaults: {

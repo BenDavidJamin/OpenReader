@@ -9,7 +9,7 @@ require.config({
     'text': '../vendor/text/text',
     'jquery-ui-draggable': '../vendor/jquery-ui/ui/minified/jquery-ui.min',
     'text-selection': '../vendor/text-selection/app/js/TextSelection',
-    'paperjs': '../vendor/paper/dist/paper'
+    'paperjs': '../vendor/paper/dist/paper-full'
   },
    shim: {
 

@@ -10,7 +10,6 @@ define([
   'views/selectOptions'],
   function (App, Backbone, _, $, Handlebars, PageTemplate, Page, TextSelection, SelectOptionsView) {
 
-  console.log(Page.View);
   /**
    * @class App
    * @extends Backbone.View
@@ -58,6 +57,9 @@ define([
 
     appendDocumentFragement: function(docFrag){
       this.$('#page-body').append(docFrag);
+      this.$('#page-body img').removeAttr("src");
+      this.$('#page-body img').removeAttr("height");
+      this.$('#page-body img').removeAttr("width");
     },
 
     setStyle: function(style){

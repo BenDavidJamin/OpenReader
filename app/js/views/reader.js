@@ -86,10 +86,10 @@ define(["app",
       var topOffset = 32;
       if(end.position().top == start.position().top){
         segments = [
-          [start.position().left,start.position().top-32],
-          [start.position().left,start.position().top-start.height()-32],
-          [end.position().left,end.position().top-end.height()-32],
-          [end.position().left,end.position().top-32]
+          [start.position().left,start.position().top],
+          [start.position().left,start.position().top+start.height()],
+          [end.position().left,end.position().top+end.height()],
+          [end.position().left,end.position().top]
         ];
 
       // in this case two paths need to be created since there is no intersecting
@@ -97,18 +97,18 @@ define(["app",
       }else if(end.position().top >= start.position.top-start.height() &&
         end.position().left < start.position().left){
         segments = [
-          [start.position().left,start.position().top-32],
-          [start.position().left,start.position().top-start.height()-32],
-          [this.$("#page-body").width(),start.position().top-start.height()-32],
-          [this.$("#page-body").width(),start.position().top-32]
+          [start.position().left,start.position().top],
+          [start.position().left,start.position().top+start.height()],
+          [this.$("#page-body").width(),start.position().top+start.height()],
+          [this.$("#page-body").width(),start.position().top]
         ];
 
        new paper.Path({
         segments: [
-          [this.$("#page-body").position().left,end.position().top-end.height()-32],
-          [this.$("#page-body").position().left,end.position().top-32],
-          [end.position().left,end.position().top-end.height()-32],
-          [end.position().left,end.position().top-32]
+          [this.$("#page-body").position().left,end.position().top+end.height()],
+          [this.$("#page-body").position().left,end.position().top],
+          [end.position().left,end.position().top+end.height()],
+          [end.position().left,end.position().top]
         ],
         fillColor: 'yellow',
         closed: true
@@ -116,10 +116,10 @@ define(["app",
 
       }else{
         segments = [
-          [start.position().left,start.position().top-32],
-          [start.position().left,start.position().top-start.height()-32],
-          [end.position().left,end.position().top-end.height()-32],
-          [end.position().left,end.position().top-32]
+          [start.position().left,start.position().top],
+          [start.position().left,start.position().top+start.height()],
+          [end.position().left,end.position().top+end.height()],
+          [end.position().left,end.position().top]
         ];
       }
 

@@ -2,7 +2,6 @@
   "name": "Open-Book",
   "version": "0.1.0",
   "dependencies": {
-    "grunt-contrib": "*",
     "restify": "2.5.0",
     "mongoose": "~3.8.4",
     "unzip": "~0.1.9",
@@ -11,7 +10,20 @@
     "clean-css": "~2.0.7"
   },
   "devDependencies": {
-    "grunt": "*",
-    "grunt-contrib-requirejs": "~0.4.0"
+    "grunt-contrib-clean": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-requirejs": "~0.4.1",
+    "grunt-contrib-stylus": "~0.13.2",
+    "grunt-contrib-testem": "~0.5.16",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-yuidoc": "~0.4.0",
+    "grunt-shell": "~0.3.1",
+    "grunt-testem": "^0.5.2",
+    "nodemon": "~0.7.6"
+  },
+  "engines": {
+    "node": ">=0.8"
   }
+
 }

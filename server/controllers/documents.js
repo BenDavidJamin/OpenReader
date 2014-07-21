@@ -137,12 +137,14 @@ exports.create = function(req, res, next){
       var file = {};
       filename = filename[filename.length-1];
       file.name = filename;
-      if(file.name.indexOf('.htm') != -1)
+      if(file.name.indexOf('.htm') != -1){
         file.data = buffer.toString();
-      else if(file.name.indexOf('.jpeg') != -1)
+      }else if(file.name.indexOf('.jpeg') != -1||file.name.indexOf('.jpg') != -1){
         file.data = buffer.toString('base64');
-      else 
+      //  console.log(file.data);
+      }else{ 
         file.data = buffer;
+      }
 
       files.push(file);
     }
@@ -163,8 +165,10 @@ exports.create = function(req, res, next){
     for(var j = 0;j<files.length;j++){
       console.log(href, files[j].name);
       if(href === files[j].name){
-        console.log(files[j].name);
-        if(href.indexOf("htm") != -1){
+        var fileParts = files[j].name.split("."); 
+        var fileEx = fileParts[fileParts.length-1];
+        //console.log(files[j].name);
+        if(fileEx.indexOf("htm") != -1){
           var $ = cheerio.load(files[j].data);
           tmp[id] = {};
 
@@ -219,6 +223,7 @@ function createFiles(tmpFiles, doc){
       files.contents[id] = tmpFiles[id];
     }else if(doc.manifest[i].mediaType === "image/jpeg"){
       files.images[id] = tmpFiles[id];
+      console.log("saving File-----------------",tmpFiles[id]);
     }
   }
   files.docId = doc.id;

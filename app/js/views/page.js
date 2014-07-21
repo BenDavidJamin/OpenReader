@@ -38,7 +38,8 @@ define([
      */
     initialize: function(attributes) {
       _.bindAll(this,
-        "calculatePages" 
+        "calculatePages",
+        "moveOverlay"
         );
 
       App.on("calculate-pages", this.calculatePages);
@@ -113,13 +114,30 @@ define([
       this.$(".page-body")[0].scrollLeft += this.$(".page-body")[0].clientWidth - this.padding;
       this.currentPage += 1;
       this.$(".current-page").html(this.currentPage+1);
+      this.moveOverlay();
+      //loadNotes
     },
 
     prevPage: function(){
       var scrollLeft = $(".page-body")[0].scrollLeft;
-      this.$(".page-body")[0].scrollLeft -= this.$(".page-body")[0].clientWidth - this.padding;
-      this.currentPage -= 1;
-      this.$(".current-page").html(this.currentPage+1);
+      if(this.currentPage != 0){
+        this.$(".page-body")[0].scrollLeft -= this.$(".page-body")[0].clientWidth - this.padding;
+        this.currentPage -= 1;
+        this.$(".current-page").html(this.currentPage+1);
+        this.moveOverlay();
+        //loadNotes
+      }
+      
+    },
+
+    /**
+      * Moves the underlying underlay to match the current scrolling. 
+      */
+    moveOverlay: function(){
+      var scrollPosition = this.$(".page-body")[0].scrollLeft;
+      var overlayLeftPosition = this.$("#page-overlay").css("left");
+      this.$("#page-overlay").css("left",scrollPosition);
+
     },
 
     mouseDown: function(evt){
